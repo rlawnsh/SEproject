@@ -66,7 +66,7 @@ public class MemberApiController {
         Member member = memberService.certificationEmail(certificationEmail.getEmail());
         LoginReq loginReq = new LoginReq(member.getMemberId(), member.getPassword());
         TokenDto token = memberService.createToken(loginReq);
-        return ResponseEntity.status(201).body(new TempToken("메일 인증에 성공했습니다.", 201, token.getAccessToken()));
+        return ResponseEntity.status(200).body(new TempToken("메일 인증에 성공했습니다.", 200, token.getAccessToken()));
     }
 
     @GetMapping("/findMemberId")
