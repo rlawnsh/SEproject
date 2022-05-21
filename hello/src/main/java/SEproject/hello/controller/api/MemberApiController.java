@@ -64,28 +64,28 @@ public class MemberApiController {
     @PostMapping("/certificate/find-userId")
     public ResponseEntity<? extends BaseResponse> certificationFindUserId(@RequestBody CertificationEmail certificationEmail) {
         Member member = memberService.certificationEmail(certificationEmail.getEmail());
-        LoginReq loginReq = new LoginReq(member.getMemberId(), member.getPassword());
+        LoginReq loginReq = new LoginReq("test", "1234");
         TokenDto token = memberService.createToken(loginReq);
-        return ResponseEntity.status(200).body(new TempToken("메일 인증에 성공했습니다.", 200, token.getAccessToken()));
+        return ResponseEntity.status(200).body(new TempToken("메일 인증에 성공했습니다.", 200, member.getId(), token.getAccessToken()));
     }
 
-    @GetMapping("/findMemberId")
-    public ResponseEntity<? extends BaseResponse> findUserId() {
-        Member member = memberService.idFindByToken();
+    @GetMapping("/findMemberId/{memberId}")
+    public ResponseEntity<? extends BaseResponse> findUserId(@PathVariable Long memberId) {
+        Member member = memberService.idFindByToken(memberId);
         return ResponseEntity.status(200).body(new FindIdRes("아이디를 찾았습니다", 200, member.getMemberId()));
     }
 
     @PostMapping("/certificate/change-pwd")
     public ResponseEntity<? extends BaseResponse> certificationChangePwd(@RequestBody CertificationId certificationId) {
         Member member = memberService.certificationUserId(certificationId.getMemberId());
-        LoginReq loginReq = new LoginReq(member.getMemberId(), member.getPassword());
+        LoginReq loginReq = new LoginReq("test", "1234");
         TokenDto token = memberService.createToken(loginReq);
-        return ResponseEntity.status(200).body(new TempToken("아이디 인증에 성공했습니다.", 200, token.getAccessToken()));
+        return ResponseEntity.status(200).body(new TempToken("아이디 인증에 성공했습니다.", 200, member.getId(), token.getAccessToken()));
     }
 
-    @PostMapping("/change/password")
-    public ResponseEntity<? extends BaseResponse> changePwd(@RequestBody ChangePwdReq changePwdReq) {
-        memberService.changePassword(changePwdReq.getPassword());
+    @PostMapping("/change/password/{memberId}")
+    public ResponseEntity<? extends BaseResponse> changePwd(@RequestBody ChangePwdReq changePwdReq, @PathVariable Long memberId) {
+        memberService.changePassword(changePwdReq.getPassword(), memberId);
         return ResponseEntity.status(201).body(new BaseResponse("비밀번호 변경을 완료했습니다.", 201));
     }
 }

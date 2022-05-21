@@ -8,10 +8,12 @@ import lombok.Setter;
 @Setter
 public class TempToken extends BaseResponse {
 
+    private Long memberId;
     private String accessToken;
 
-    public TempToken(String msg, Integer status, String accessToken) {
+    public TempToken(String msg, Integer status,Long id, String accessToken) {
         super(msg, status);
+        this.memberId = id;
         this.accessToken = accessToken;
     }
 }

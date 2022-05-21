@@ -17,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -32,10 +34,10 @@ public class MemberService {
         return memberRepository.findByMemberId(memberId).orElse(null);
     }
 
-    public void changePassword(String password) {
-        Member byUserId = memberRepository.findById(SecurityUtil.getCurrentUserId()).orElse(null);
-        byUserId.updatePassword(passwordEncoder.encode(password));
-        memberRepository.save(byUserId);
+    @Transactional
+    public void changePassword(String password, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElse(null);
+        member.updatePassword(passwordEncoder.encode(password));
     }
 
     public boolean isExistEmail(String email) {
@@ -48,16 +50,16 @@ public class MemberService {
         return member != null;
     }
 
-    public Member certificationUserId(String userId) {
-        return memberRepository.findByMemberId(userId).orElse(null);
+    public Member certificationUserId(String memberId) {
+        return memberRepository.findByMemberId(memberId).orElse(null);
     }
 
     public Member certificationEmail(String email) {
         return memberRepository.findByEmail(email).orElse(null);
     }
 
-    public Member idFindByToken() {
-        return memberRepository.findById(SecurityUtil.getCurrentUserId()).orElse(null);
+    public Member idFindByToken(Long memberId) {
+        return memberRepository.findById(memberId).orElse(null);
     }
 
     public TokenDto createToken(LoginReq loginReq) {
