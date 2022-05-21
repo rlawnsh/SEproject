@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    password: 1128
+    url: jdbc:mariadb://localhost:3306/SEproject?characterEncoding=UTF-8&serverTimezone=UTC
+    username: myadmin
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+logging.level:
+  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
+
+jwt:
+  secret: asdfweqreqwfadszvcgfgadsgrqasdfweqfsgafgqeegrqegqaggsdgadsfadsggggggggggggggafaewawefawfasdczvfagacv
