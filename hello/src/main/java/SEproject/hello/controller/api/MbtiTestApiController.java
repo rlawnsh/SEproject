@@ -21,9 +21,46 @@ public class MbtiTestApiController {
     private final MbtiTestService mbtiTestService;
     private final LikesService likesService;
 
-    @GetMapping("/list")
-    public ResponseEntity<? extends BaseResponse> testList() {
-        List<MbtiTestDto> collect = mbtiTestService.getTestList().stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+    @GetMapping(value = {"/list/{mbtiTestId}", "/list"})
+    public ResponseEntity<? extends BaseResponse> testList(@PathVariable(required = false) Long mbtiTestId) {
+        List<MbtiTestDto> collect;
+
+        if (mbtiTestId == null) {
+            collect = mbtiTestService.getRecentTest(0L).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+        } else {
+            collect = mbtiTestService.getRecentTest(mbtiTestId).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+        }
+        for (MbtiTestDto mbtiTestDto : collect) {
+            mbtiTestDto.setThumbnail("/mbtiTestImg/" + mbtiTestDto.getThumbnail());
+        }
+
+        return ResponseEntity.status(200).body(new MbtiTestRes("모든 테스트를 가져왔습니다", 200, collect));
+    }
+
+    @GetMapping(value = {"/list/likes/{likes}", "/list/likes"})
+    public ResponseEntity<? extends BaseResponse> testListByLikes(@PathVariable(required = false) Integer likes) {
+        List<MbtiTestDto> collect;
+
+        if (likes == null) {
+            collect = mbtiTestService.getTestByLikes(0).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+        } else {
+            collect = mbtiTestService.getTestByLikes(likes).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+        }
+        for (MbtiTestDto mbtiTestDto : collect) {
+            mbtiTestDto.setThumbnail("/mbtiTestImg/" + mbtiTestDto.getThumbnail());
+        }
+        return ResponseEntity.status(200).body(new MbtiTestRes("모든 테스트를 가져왔습니다", 200, collect));
+    }
+
+    @GetMapping(value = {"/list/views/{views}", "/list/views"})
+    public ResponseEntity<? extends BaseResponse> testListByViews(@PathVariable(required = false) Integer views) {
+        List<MbtiTestDto> collect;
+
+        if (views == null) {
+            collect = mbtiTestService.getTestByViews(0).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+        } else {
+            collect = mbtiTestService.getTestByViews(views).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+        }
         for (MbtiTestDto mbtiTestDto : collect) {
             mbtiTestDto.setThumbnail("/mbtiTestImg/" + mbtiTestDto.getThumbnail());
         }
