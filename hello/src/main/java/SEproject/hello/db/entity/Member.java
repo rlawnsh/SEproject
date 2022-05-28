@@ -38,6 +38,9 @@ public class Member extends BaseEntity{
     @OneToMany(mappedBy = "member")
     private List<Likes> likesList;
 
+    @OneToMany(mappedBy = "member")
+    private List<BookMark> bookMarkList;
+
     public void updatePassword(String password) {
         this.password = password;
     }

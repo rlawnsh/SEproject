@@ -4,6 +4,7 @@ import SEproject.hello.common.model.BaseResponse;
 import SEproject.hello.controller.dto.MbtiTestDto;
 import SEproject.hello.controller.dto.response.LikesRes;
 import SEproject.hello.controller.dto.response.MbtiTestRes;
+import SEproject.hello.service.BookMarkService;
 import SEproject.hello.service.LikesService;
 import SEproject.hello.service.MbtiTestService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class MbtiTestApiController {
 
     private final MbtiTestService mbtiTestService;
     private final LikesService likesService;
+    private final BookMarkService bookMarkService;
 
     @GetMapping(value = {"/list/{mbtiTestId}", "/list"})
     public ResponseEntity<? extends BaseResponse> testList(@PathVariable(required = false) Long mbtiTestId) {
@@ -80,6 +82,11 @@ public class MbtiTestApiController {
     @PostMapping("/likes/{mbtiTestId}")
     public void likes(@PathVariable Long mbtiTestId) {
         likesService.likes(mbtiTestId);
+    }
+
+    @PostMapping("/bookmark/{mbtiTestId}")
+    public void postBookMark(@PathVariable Long mbtiTestId) {
+        bookMarkService.postBookMark(mbtiTestId);
     }
 
     @DeleteMapping("/unlikes/{mbtiTestId}")

@@ -26,6 +26,9 @@ public class MbtiTest extends BaseEntity{
     @OneToMany(mappedBy = "mbtiTest")
     private List<Likes> likesList;
 
+    @OneToMany(mappedBy = "mbtiTest")
+    private List<BookMark> bookMarkList;
+
     public void upMbtiTestViews() {
         this.views++;
     }

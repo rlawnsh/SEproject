@@ -9,12 +9,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MbtiTestRepository extends JpaRepository<MbtiTest, Long> {
 
     @EntityGraph(attributePaths = {"likesList"})
     List<MbtiTest> findAll();
+
+    @EntityGraph(attributePaths = {"likesList"})
+    Optional<MbtiTest> findById(Long id);
 
     @EntityGraph(attributePaths = {"likesList"})
     @Query("select m from MbtiTest m order by m.id desc")
