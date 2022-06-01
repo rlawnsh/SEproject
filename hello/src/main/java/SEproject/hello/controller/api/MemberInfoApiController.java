@@ -1,9 +1,11 @@
 package SEproject.hello.controller.api;
 
 import SEproject.hello.common.model.BaseResponse;
+import SEproject.hello.controller.dto.MbtiTestBookDto;
 import SEproject.hello.controller.dto.MbtiTestDto;
 import SEproject.hello.controller.dto.request.PostTestReq;
 import SEproject.hello.controller.dto.response.BookmarkRes;
+import SEproject.hello.controller.dto.response.MbtiTestBookRes;
 import SEproject.hello.service.BookMarkService;
 import SEproject.hello.service.MbtiTestBookService;
 import SEproject.hello.service.MemberService;
@@ -54,6 +56,17 @@ public class MemberInfoApiController {
     public ResponseEntity<? extends BaseResponse> postTest(@RequestBody PostTestReq postTestReq) {
         mbtiTestBookService.saveTest(postTestReq);
         return ResponseEntity.status(201).body(new BaseResponse("성공적으로 업로드 하였습니다.", 201));
+    }
+
+    @GetMapping(value = {"/memberTest", "/memberTest/{page}"})
+    public ResponseEntity<? extends BaseResponse> getMemberTest(@PathVariable(required = false) Integer page) {
+        List<MbtiTestBookDto> mbtiTestBookDtos;
+        if (page == null) {
+            mbtiTestBookDtos = mbtiTestBookService.getMemberTest(0);
+        } else {
+            mbtiTestBookDtos = mbtiTestBookService.getMemberTest(page);
+        }
+        return ResponseEntity.status(200).body(new MbtiTestBookRes("멤버에 대한 테스트 북마크를 불러왔습니다.", 200, mbtiTestBookDtos));
     }
 
 }
