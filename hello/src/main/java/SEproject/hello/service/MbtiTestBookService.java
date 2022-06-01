@@ -50,7 +50,7 @@ public class MbtiTestBookService {
             MbtiTestBookDto mbtiTestBookDto = new MbtiTestBookDto();
             mbtiTestBookDto.setTestResult(mbtiTestBook.getTestResult());
             mbtiTestBookDto.setTestUrl(mbtiTestBook.getTestUrl());
-            mbtiTestBookDto.setThumbnailUrl(mbtiTestBook.getThumbnailUrl());
+            mbtiTestBookDto.setThumbnailUrl("/testBook/" + mbtiTestBook.getThumbnailUrl());
             mbtiTestBookDtos.add(mbtiTestBookDto);
         }
         return mbtiTestBookDtos;
