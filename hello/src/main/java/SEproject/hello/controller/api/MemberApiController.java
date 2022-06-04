@@ -69,10 +69,12 @@ public class MemberApiController {
         return ResponseEntity.status(200).body(new TempToken("메일 인증에 성공했습니다.", 200, member.getId(), token.getAccessToken()));
     }
 
-    @GetMapping("/findMemberId/{memberId}")
-    public ResponseEntity<? extends BaseResponse> findUserId(@PathVariable Long memberId) {
-        Member member = memberService.idFindByToken(memberId);
-        return ResponseEntity.status(200).body(new FindIdRes("아이디를 찾았습니다", 200, member.getMemberId()));
+    @GetMapping("/findMemberId/{id}")
+    public ResponseEntity<? extends BaseResponse> findUserId(@PathVariable Long id) {
+        Member member = memberService.idFindByToken(id);
+        String memberId = member.getMemberId();
+        String subStringId = memberId.substring(0, memberId.length() - (memberId.length()/2)) + "*".repeat(memberId.length()/2);
+        return ResponseEntity.status(200).body(new FindIdRes("아이디를 찾았습니다", 200, subStringId));
     }
 
     @PostMapping("/certificate/change-pwd")
