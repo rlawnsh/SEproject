@@ -8,7 +8,6 @@ import SEproject.hello.controller.dto.response.BookmarkRes;
 import SEproject.hello.controller.dto.response.MbtiTestBookRes;
 import SEproject.hello.service.BookMarkService;
 import SEproject.hello.service.MbtiTestBookService;
-import SEproject.hello.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +35,12 @@ public class MemberInfoApiController {
         return ResponseEntity.status(200).body(new BookmarkRes("사용자의 북마크를 불러왔습니다.", 200, bookMark));
     }
 
-    @DeleteMapping("/delete/all")
+    @DeleteMapping("/delete/bookmark/all")
     public void deleteAllBookMark() {
         bookMarkService.deleteAll();
     }
 
-    @DeleteMapping("/delete/{mbtiTestId}")
+    @DeleteMapping("/delete/bookmark/{mbtiTestId}")
     public void deleteBookMark(@PathVariable Long mbtiTestId) {
         bookMarkService.delete(mbtiTestId);
     }
@@ -66,7 +65,17 @@ public class MemberInfoApiController {
         } else {
             mbtiTestBookDtos = mbtiTestBookService.getMemberTest(page);
         }
-        return ResponseEntity.status(200).body(new MbtiTestBookRes("멤버에 대한 테스트 북마크를 불러왔습니다.", 200, mbtiTestBookDtos));
+        return ResponseEntity.status(200).body(new MbtiTestBookRes("멤버에 대한 테스트 결과들을 불러왔습니다.", 200, mbtiTestBookDtos));
+    }
+
+    @DeleteMapping("/memberTest/delete/{mbtiTestBookId}")
+    public void deleteMbtiTestBook(@PathVariable Long mbtiTestBookId) {
+        mbtiTestBookService.deleteByMemberId(mbtiTestBookId);
+    }
+
+    @DeleteMapping("/memberTest/delete/all")
+    public void deleteAllMbtiTestBook() {
+        mbtiTestBookService.deleteAllByMemberId();
     }
 
 }

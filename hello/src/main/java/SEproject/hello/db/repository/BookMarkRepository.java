@@ -14,4 +14,6 @@ public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
     List<BookMark> findByMemberId(Long memberId, Pageable pageable);
 
     void deleteByMemberIdAndMbtiTestId(Long memberId, Long mbtiTestId);
+
+    void deleteAllByMemberId(Long memberId);
 }

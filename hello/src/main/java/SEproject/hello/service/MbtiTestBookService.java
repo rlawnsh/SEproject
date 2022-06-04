@@ -10,6 +10,7 @@ import SEproject.hello.db.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -54,5 +55,17 @@ public class MbtiTestBookService {
             mbtiTestBookDtos.add(mbtiTestBookDto);
         }
         return mbtiTestBookDtos;
+    }
+
+    @Transactional
+    public void deleteByMemberId(Long mbtiTestBookId) {
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+        mbtiTestBookRepository.deleteByIdAndMemberId(mbtiTestBookId, currentUserId);
+    }
+
+    @Transactional
+    public void deleteAllByMemberId() {
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+        mbtiTestBookRepository.deleteAllByMemberId(currentUserId);
     }
 }

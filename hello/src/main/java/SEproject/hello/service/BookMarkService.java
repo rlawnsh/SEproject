@@ -53,6 +53,7 @@ public class BookMarkService {
 
     @Transactional
     public void deleteAll() {
-        bookMarkRepository.deleteAll();
+        Long memberId = SecurityUtil.getCurrentUserId();
+        bookMarkRepository.deleteAllByMemberId(memberId);
     }
 }
