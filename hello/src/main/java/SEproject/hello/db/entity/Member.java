@@ -44,6 +44,10 @@ public class Member extends BaseEntity{
     @OneToMany(mappedBy = "member")
     private List<MbtiTestBook> mbtiTestBookList;
 
+    @OneToOne
+    @JoinColumn
+    private MbtiLevel mbtiLevel;
+
     public void updatePassword(String password) {
         this.password = password;
     }

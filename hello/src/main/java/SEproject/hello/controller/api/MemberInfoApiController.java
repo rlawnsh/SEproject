@@ -1,13 +1,16 @@
 package SEproject.hello.controller.api;
 
 import SEproject.hello.common.model.BaseResponse;
+import SEproject.hello.config.security.SecurityUtil;
 import SEproject.hello.controller.dto.MbtiTestBookDto;
 import SEproject.hello.controller.dto.MbtiTestDto;
 import SEproject.hello.controller.dto.request.PostTestReq;
 import SEproject.hello.controller.dto.response.BookmarkRes;
 import SEproject.hello.controller.dto.response.MbtiTestBookRes;
+import SEproject.hello.controller.dto.response.MemberInfoRes;
 import SEproject.hello.service.BookMarkService;
 import SEproject.hello.service.MbtiTestBookService;
+import SEproject.hello.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +24,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberInfoApiController {
 
+    private final MemberService memberService;
     private final MbtiTestBookService mbtiTestBookService;
     private final BookMarkService bookMarkService;
+
+    @GetMapping("/member")
+    public ResponseEntity<? extends BaseResponse> getMemberInfo() {
+        Integer memberTestLength = mbtiTestBookService.getMemberTestLength();
+        if (0 <= memberTestLength && memberTestLength <= 3) {
+            memberService.saveLevel("MBTI뉴비");
+        } else if (3 < memberTestLength && memberTestLength <= 5) {
+            memberService.saveLevel("MBTI수집가");
+        } else if (5 < memberTestLength && memberTestLength <= 7) {
+            memberService.saveLevel("MBTI수집광");
+        } else if (7 < memberTestLength && memberTestLength <= 10) {
+            memberService.saveLevel("MBTI전문가");
+        } else if (10 < memberTestLength) {
+            memberService.saveLevel("MBTI마스터");
+        }
+
+        return ResponseEntity.status(200).body(new MemberInfoRes("멤버의 정보를 가져왔습니다", 200, memberService.findById(SecurityUtil.getCurrentUserId()), memberTestLength));
+    }
 
     @GetMapping(value = {"/bookmark/{page}", "/bookmark"})
     public ResponseEntity<? extends BaseResponse> getBookMark(@PathVariable(required = false) Integer page) {

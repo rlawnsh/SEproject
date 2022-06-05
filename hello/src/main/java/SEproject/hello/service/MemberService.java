@@ -5,8 +5,10 @@ import SEproject.hello.config.jwt.TokenProvider;
 import SEproject.hello.config.security.SecurityUtil;
 import SEproject.hello.controller.dto.request.LoginReq;
 import SEproject.hello.controller.dto.TokenForm;
+import SEproject.hello.db.entity.MbtiLevel;
 import SEproject.hello.db.entity.Member;
 import SEproject.hello.db.entity.RefreshToken;
+import SEproject.hello.db.repository.MbtiLevelRepository;
 import SEproject.hello.db.repository.MemberRepository;
 import SEproject.hello.db.repository.RefreshTokenRepository;
 import io.jsonwebtoken.JwtException;
@@ -25,6 +27,7 @@ import javax.transaction.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MbtiLevelRepository mbtiLevelRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -116,5 +119,16 @@ public class MemberService {
 
     public void save(Member toUserEntity) {
         memberRepository.save(toUserEntity);
+    }
+
+    @Transactional
+    public void saveLevel(String level) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentUserId()).orElse(null);
+        MbtiLevel byLevel = mbtiLevelRepository.findByLevel(level);
+        member.setMbtiLevel(byLevel);
+    }
+
+    public Member findById(Long currentUserId) {
+        return memberRepository.findById(SecurityUtil.getCurrentUserId()).orElse(null);
     }
 }
