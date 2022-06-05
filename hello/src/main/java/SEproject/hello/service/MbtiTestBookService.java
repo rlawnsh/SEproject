@@ -68,4 +68,8 @@ public class MbtiTestBookService {
         Long currentUserId = SecurityUtil.getCurrentUserId();
         mbtiTestBookRepository.deleteAllByMemberId(currentUserId);
     }
+
+    public Integer getMemberTestLength() {
+        return mbtiTestBookRepository.findAllByMemberId(SecurityUtil.getCurrentUserId()).size();
+    }
 }
