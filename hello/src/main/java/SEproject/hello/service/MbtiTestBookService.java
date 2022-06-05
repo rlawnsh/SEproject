@@ -72,4 +72,12 @@ public class MbtiTestBookService {
     public Integer getMemberTestLength() {
         return mbtiTestBookRepository.findAllByMemberId(SecurityUtil.getCurrentUserId()).size();
     }
+
+    public Boolean checkResultUrl(String testUrl) {
+        if (mbtiTestBookRepository.findByTestUrl(testUrl) != null) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
 }

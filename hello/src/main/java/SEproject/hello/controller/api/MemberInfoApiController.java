@@ -75,6 +75,9 @@ public class MemberInfoApiController {
 
     @PostMapping("/postMbtiTest")
     public ResponseEntity<? extends BaseResponse> postTest(@RequestBody PostTestReq postTestReq) {
+        if (mbtiTestBookService.checkResultUrl(postTestReq.getTestUrl())) {
+            return ResponseEntity.status(400).body(new BaseResponse("중복된 테스트 결과입니다.", 400));
+        }
         mbtiTestBookService.saveTest(postTestReq);
         return ResponseEntity.status(201).body(new BaseResponse("성공적으로 업로드 하였습니다.", 201));
     }

@@ -17,4 +17,6 @@ public interface MbtiTestBookRepository extends JpaRepository<MbtiTestBook, Long
     void deleteAllByMemberId(Long memberId);
 
     List<MbtiTestBook> findAllByMemberId(Long memberId);
+
+    MbtiTestBook findByTestUrl(String testUrl);
 }
