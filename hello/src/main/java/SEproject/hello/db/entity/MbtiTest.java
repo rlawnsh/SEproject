@@ -18,6 +18,7 @@ public class MbtiTest extends BaseEntity{
     private String title;
     private String link;
     private String thumbnail;
+    private String checkLink;
 
     @CreationTimestamp
     private LocalDateTime createdTime;

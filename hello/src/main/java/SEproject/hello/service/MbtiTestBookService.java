@@ -3,9 +3,11 @@ package SEproject.hello.service;
 import SEproject.hello.config.security.SecurityUtil;
 import SEproject.hello.controller.dto.MbtiTestBookDto;
 import SEproject.hello.controller.dto.request.PostTestReq;
+import SEproject.hello.db.entity.MbtiTest;
 import SEproject.hello.db.entity.MbtiTestBook;
 import SEproject.hello.db.entity.Member;
 import SEproject.hello.db.repository.MbtiTestBookRepository;
+import SEproject.hello.db.repository.MbtiTestRepository;
 import SEproject.hello.db.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,7 @@ import static SEproject.hello.common.model.BaseUrl.testBook_Base_URL;
 public class MbtiTestBookService {
 
     private final MemberRepository memberRepository;
+    private final MbtiTestRepository mbtiTestRepository;
     private final MbtiTestBookRepository mbtiTestBookRepository;
 
     public String saveThumbnail(MultipartFile multipartFile) throws IOException {
@@ -73,11 +76,26 @@ public class MbtiTestBookService {
         return mbtiTestBookRepository.findAllByMemberId(SecurityUtil.getCurrentUserId()).size();
     }
 
-    public Boolean checkResultUrl(String testUrl) {
+    public boolean checkDuplicateResultUrl(String testUrl) {
         if (mbtiTestBookRepository.findByTestUrl(testUrl) != null) {
-            return Boolean.TRUE;
+            return true;
         } else {
-            return Boolean.FALSE;
+            return false;
         }
+    }
+
+    public boolean checkResultUrl(String testUrl) {
+        List<MbtiTest> all = mbtiTestRepository.findAll();
+        for (MbtiTest mbtiTest : all) {
+            int length = mbtiTest.getCheckLink().length();
+            if (testUrl.length() < length) {
+                continue;
+            }
+            String substring = testUrl.substring(0, length);
+            if (substring.equals(mbtiTest.getCheckLink())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
