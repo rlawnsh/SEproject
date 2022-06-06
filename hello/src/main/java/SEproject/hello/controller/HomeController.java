@@ -8,6 +8,7 @@ public class HomeController {
 
     @GetMapping("/home")
     private String mainPage() {
-        return "home";
+
+        return "01.main";
     }
 }
