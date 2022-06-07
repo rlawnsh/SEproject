@@ -5,25 +5,26 @@ import SEproject.hello.db.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 public class SignUpUserReq {
 
-    @NotNull
+    @NotEmpty(message = "아이디를 입력하세요!")
     private String memberId;
 
-    @NotNull
+    @NotEmpty(message = "비밀번호를 입력하세요!")
     private String password;
 
-    @NotNull
+    @NotEmpty(message = "이름을 입력하세요!")
     private String name;
 
-    @NotNull
+    @NotEmpty(message = "이메일을 입력하세요!")
     private String email;
 
-    @NotNull
+    @NotEmpty(message = "mbti를 입력하세요!")
     private String mbti;
 
     public Member toUserEntity(String encode) {

@@ -62,7 +62,7 @@ public class MemberApiController {
     }
 
     @PostMapping("/certificate/find-userId")
-    public ResponseEntity<? extends BaseResponse> certificationFindUserId(@RequestBody CertificationEmail certificationEmail) {
+    public ResponseEntity<? extends BaseResponse> certificationFindUserId(@Valid @RequestBody CertificationEmail certificationEmail) {
         Member member = memberService.certificationEmail(certificationEmail.getEmail());
         LoginReq loginReq = new LoginReq("test", "1234");
         TokenDto token = memberService.createToken(loginReq);
@@ -78,7 +78,7 @@ public class MemberApiController {
     }
 
     @PostMapping("/certificate/change-pwd")
-    public ResponseEntity<? extends BaseResponse> certificationChangePwd(@RequestBody CertificationId certificationId) {
+    public ResponseEntity<? extends BaseResponse> certificationChangePwd(@Valid @RequestBody CertificationId certificationId) {
         Member member = memberService.certificationUserId(certificationId.getMemberId());
         LoginReq loginReq = new LoginReq("test", "1234");
         TokenDto token = memberService.createToken(loginReq);
