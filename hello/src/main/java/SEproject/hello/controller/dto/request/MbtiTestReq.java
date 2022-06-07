@@ -17,4 +17,6 @@ public class MbtiTestReq {
     private String thumbnail;
     @NotNull
     private Integer views;
+    @NotNull
+    private String checkLink;
 }

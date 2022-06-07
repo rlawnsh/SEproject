@@ -15,13 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import static SEproject.hello.common.model.BaseUrl.testBook_Base_URL;
 
 @Service
 @RequiredArgsConstructor
@@ -30,13 +27,10 @@ public class MbtiTestBookService {
     private final MemberRepository memberRepository;
     private final MbtiTestRepository mbtiTestRepository;
     private final MbtiTestBookRepository mbtiTestBookRepository;
+    private final S3Service s3Service;
 
     public String saveThumbnail(MultipartFile multipartFile) throws IOException {
-        String testBook_base_url = testBook_Base_URL;
-        String fileName = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
-        String filePath = testBook_base_url + fileName;
-        File dest = new File(filePath);
-        multipartFile.transferTo(dest);
+        String fileName = s3Service.uploadThumbnail(multipartFile);
         return fileName;
     }
 

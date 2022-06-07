@@ -2,15 +2,19 @@ package SEproject.hello.controller.api;
 
 import SEproject.hello.common.model.BaseResponse;
 import SEproject.hello.controller.dto.MbtiTestDto;
+import SEproject.hello.controller.dto.request.MbtiTestReq;
 import SEproject.hello.controller.dto.response.LikesRes;
 import SEproject.hello.controller.dto.response.MbtiTestRes;
 import SEproject.hello.service.BookMarkService;
 import SEproject.hello.service.LikesService;
 import SEproject.hello.service.MbtiTestService;
+import SEproject.hello.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +26,7 @@ public class MbtiTestApiController {
     private final MbtiTestService mbtiTestService;
     private final LikesService likesService;
     private final BookMarkService bookMarkService;
+    private final S3Service s3Service;
 
     @GetMapping(value = {"/list/{mbtiTestId}", "/list"})
     public ResponseEntity<? extends BaseResponse> testList(@PathVariable(required = false) Long mbtiTestId) {
@@ -92,5 +97,17 @@ public class MbtiTestApiController {
     @DeleteMapping("/unlikes/{mbtiTestId}")
     public void unlikes(@PathVariable Long mbtiTestId) {
         likesService.unlikes(mbtiTestId);
+    }
+
+    @PostMapping("/thumbnail")
+    public ResponseEntity<? extends BaseResponse> testThumbnail(MultipartFile multipartFile) throws IOException {
+        String thumbnail = s3Service.uploadThumbnail(multipartFile);
+        return ResponseEntity.status(201).body(new BaseResponse(thumbnail, 201));
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<? extends BaseResponse> uploadTest(@RequestBody MbtiTestReq mbtiTestReq) {
+        mbtiTestService.saveTest(mbtiTestReq);
+        return ResponseEntity.status(201).body(new BaseResponse("테스트 등록을 완료했습니다.", 201));
     }
 }

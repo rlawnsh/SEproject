@@ -1,8 +1,10 @@
 package SEproject.hello.service;
 
+import SEproject.hello.controller.dto.request.MbtiTestReq;
 import SEproject.hello.db.entity.MbtiTest;
 import SEproject.hello.db.repository.MbtiTestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -41,4 +43,9 @@ public class MbtiTestService {
                 : mbtiTestRepository.findByOrderByViewsDescWithList(PageRequest.of(page, 2));
     }
 
+    public void saveTest(MbtiTestReq mbtiTestReq) {
+        MbtiTest mbtiTest = new MbtiTest();
+        BeanUtils.copyProperties(mbtiTestReq, mbtiTest);
+        mbtiTestRepository.save(mbtiTest);
+    }
 }

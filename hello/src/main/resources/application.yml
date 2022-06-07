@@ -1,9 +1,13 @@
 spring:
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    password: 1128
-    url: jdbc:mariadb://localhost:3306/SEproject?characterEncoding=UTF-8&serverTimezone=UTC
-    username: myadmin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(dZjmVdDaDTt9wsPMB3YIvUMMrmnpCNs8N3IbIWj/igZCkeed+W2hTxjkeFdKQ+pJokCdQq+uVw78vH/xpBOZ8mLAaIt1+ctAslgfRDxJh6OubiChqb35PkcMBl9aeff405LxeI6i0KzRu1liWBRc9RWytrYVg4ch+fuRzhu3D2UqMMr2RuNngW1w7qg4Jm5/)
+    username: root
+    password: ENC(dsd11o8JaBpphzkWumAxz3oJyOQ6NtxN)
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    password: 1128
+#    url: jdbc:mariadb://localhost:3306/SEproject?characterEncoding=UTF-8&serverTimezone=UTC
+#    username: myadmin
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -25,5 +29,21 @@ logging.level:
   org.hibernate.SQL: debug
 #  org.hibernate.type: trace
 
+cloud:
+  aws:
+    credentials:
+      access-key: ENC(pQWtU1yJCLrmWyVwiGx/wOqa8FLSwtbm5d1rAa08A7o=)
+      secret-key: ENC(az/6TASWJMIFwjhrZir2qNMZJc8LsyDH0slXiZr4YspVY9dp303DBhKzoX0IN6lMg3ilUVz0r/E=)
+    s3:
+      bucket: ENC(hYfnD7zgO5pyB+c4ASmQPpOWWbIJ5wt1LvpDZslwCz0=)
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
 jwt:
-  secret: asdfweqreqwfadszvcgfgadsgrqasdfweqfsgafgqeegrqegqaggsdgadsfadsggggggggggggggafaewawefawfasdczvfagacv
+  secret: ENC(NPE+tbont7cZ4HNyFt6PEcvHlz+r2Z02gOrb5t3hdY724Ow2BmnyLKenJhfc4shVsYXq0HK1KNMnHbcUQAhPOv0dUkIegqWCH2j5s/VnExh2LDfhGkEg4zLeQMC6iuCXTCRPmXyJSQ4v3VgsPOmfTw==)
