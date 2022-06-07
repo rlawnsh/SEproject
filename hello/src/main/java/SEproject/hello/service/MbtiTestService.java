@@ -28,19 +28,19 @@ public class MbtiTestService {
         mbtiTest.upMbtiTestViews();
     }
 
-    public List<MbtiTest> getRecentTest(Long mbtiTestId) {
-        return mbtiTestId.equals(0L)? mbtiTestRepository.findByOrderByIdDescWithList(PageRequest.of(0, 2))
-                : mbtiTestRepository.findByOrderByIdDesc(mbtiTestId, PageRequest.of(0, 2));
+    public List<MbtiTest> getRecentTest(Integer page) {
+        return page.equals(0)? mbtiTestRepository.findByOrderByIdDescWithList(PageRequest.of(0, 16))
+                : mbtiTestRepository.findByOrderByIdDescWithList(PageRequest.of(page, 16));
     }
 
     public List<MbtiTest> getTestByLikes(Integer page) {
-        return page.equals(0) ? mbtiTestRepository.findByOrderByLikesDescWithList(PageRequest.of(0, 2))
-                : mbtiTestRepository.findByOrderByLikesDescWithList(PageRequest.of(page, 2));
+        return page.equals(0) ? mbtiTestRepository.findByOrderByLikesDescWithList(PageRequest.of(0, 16))
+                : mbtiTestRepository.findByOrderByLikesDescWithList(PageRequest.of(page, 16));
     }
 
     public List<MbtiTest> getTestByViews(Integer page) {
-        return page.equals(0) ? mbtiTestRepository.findByOrderByViewsDescWithList(PageRequest.of(0, 2))
-                : mbtiTestRepository.findByOrderByViewsDescWithList(PageRequest.of(page, 2));
+        return page.equals(0) ? mbtiTestRepository.findByOrderByViewsDescWithList(PageRequest.of(0, 16))
+                : mbtiTestRepository.findByOrderByViewsDescWithList(PageRequest.of(page, 16));
     }
 
     public void saveTest(MbtiTestReq mbtiTestReq) {

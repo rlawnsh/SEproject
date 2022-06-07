@@ -21,13 +21,13 @@ public interface MbtiTestRepository extends JpaRepository<MbtiTest, Long> {
     Optional<MbtiTest> findById(Long id);
 
     @EntityGraph(attributePaths = {"likesList"})
-    @Query("select m from MbtiTest m order by m.id desc")
+    @Query("select m from MbtiTest m order by m.createdTime desc")
     List<MbtiTest> findByOrderByIdDescWithList(Pageable pageable);
 
-// #TODO 커서적용
-    @EntityGraph(attributePaths = {"likesList"})
-    @Query("select m from MbtiTest m where m.id < :mbtiTestId order by m.id desc")
-    List<MbtiTest> findByOrderByIdDesc(@Param("mbtiTestId") Long mbtiTestId, Pageable pageable);
+//// #TODO 커서적용
+//    @EntityGraph(attributePaths = {"likesList"})
+//    @Query("select m from MbtiTest m where m.id < :mbtiTestId order by m.id desc")
+//    List<MbtiTest> findByOrderByIdDesc(@Param("mbtiTestId") Long mbtiTestId, Pageable pageable);
 
     @EntityGraph(attributePaths = {"likesList"})
     @Query("select m from MbtiTest m order by m.likesList.size desc")

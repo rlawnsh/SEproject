@@ -28,23 +28,23 @@ public class MbtiTestApiController {
     private final BookMarkService bookMarkService;
     private final S3Service s3Service;
 
-    @GetMapping(value = {"/list/{mbtiTestId}", "/list"})
-    public ResponseEntity<? extends BaseResponse> testList(@PathVariable(required = false) Long mbtiTestId) {
+    @GetMapping(value = {"/list/{page}", "/list"})
+    public ResponseEntity<? extends BaseResponse> testList(@PathVariable(required = false) Integer page) {
         List<MbtiTestDto> collect;
 
-        if (mbtiTestId == null) {
-            collect = mbtiTestService.getRecentTest(0L).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+        if (page == null) {
+            collect = mbtiTestService.getRecentTest(0).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
         } else {
-            collect = mbtiTestService.getRecentTest(mbtiTestId).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
+            collect = mbtiTestService.getRecentTest(page).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
         }
         for (MbtiTestDto mbtiTestDto : collect) {
-            mbtiTestDto.setThumbnail("/mbtiTestImg/" + mbtiTestDto.getThumbnail());
+            mbtiTestDto.setThumbnail(mbtiTestDto.getThumbnail());
         }
 
         return ResponseEntity.status(200).body(new MbtiTestRes("모든 테스트를 가져왔습니다", 200, collect));
     }
 
-    @GetMapping(value = {"/list/likes/{likes}", "/list/likes"})
+    @GetMapping(value = {"/list/likes/{page}", "/list/likes"})
     public ResponseEntity<? extends BaseResponse> testListByLikes(@PathVariable(required = false) Integer likes) {
         List<MbtiTestDto> collect;
 
@@ -54,12 +54,12 @@ public class MbtiTestApiController {
             collect = mbtiTestService.getTestByLikes(likes).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
         }
         for (MbtiTestDto mbtiTestDto : collect) {
-            mbtiTestDto.setThumbnail("/mbtiTestImg/" + mbtiTestDto.getThumbnail());
+            mbtiTestDto.setThumbnail(mbtiTestDto.getThumbnail());
         }
         return ResponseEntity.status(200).body(new MbtiTestRes("모든 테스트를 가져왔습니다", 200, collect));
     }
 
-    @GetMapping(value = {"/list/views/{views}", "/list/views"})
+    @GetMapping(value = {"/list/views/{page}", "/list/views"})
     public ResponseEntity<? extends BaseResponse> testListByViews(@PathVariable(required = false) Integer views) {
         List<MbtiTestDto> collect;
 
@@ -69,7 +69,7 @@ public class MbtiTestApiController {
             collect = mbtiTestService.getTestByViews(views).stream().map(test -> new MbtiTestDto(test)).collect(Collectors.toList());
         }
         for (MbtiTestDto mbtiTestDto : collect) {
-            mbtiTestDto.setThumbnail("/mbtiTestImg/" + mbtiTestDto.getThumbnail());
+            mbtiTestDto.setThumbnail(mbtiTestDto.getThumbnail());
         }
         return ResponseEntity.status(200).body(new MbtiTestRes("모든 테스트를 가져왔습니다", 200, collect));
     }
@@ -100,7 +100,7 @@ public class MbtiTestApiController {
     }
 
     @PostMapping("/thumbnail")
-    public ResponseEntity<? extends BaseResponse> testThumbnail(MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<? extends BaseResponse> testThumbnail(@RequestParam("images") MultipartFile multipartFile) throws IOException {
         String thumbnail = s3Service.uploadThumbnail(multipartFile);
         return ResponseEntity.status(201).body(new BaseResponse(thumbnail, 201));
     }

@@ -43,12 +43,12 @@ public class MbtiTestBookService {
 
     public List<MbtiTestBookDto> getMemberTest(Integer page) {
         List<MbtiTestBookDto> mbtiTestBookDtos = new ArrayList<>();
-        List<MbtiTestBook> testByMemberId = mbtiTestBookRepository.findTestByMemberId(SecurityUtil.getCurrentUserId(), PageRequest.of(page, 2));
+        List<MbtiTestBook> testByMemberId = mbtiTestBookRepository.findTestByMemberId(SecurityUtil.getCurrentUserId(), PageRequest.of(page, 10));
         for (MbtiTestBook mbtiTestBook : testByMemberId) {
             MbtiTestBookDto mbtiTestBookDto = new MbtiTestBookDto();
             mbtiTestBookDto.setTestResult(mbtiTestBook.getTestResult());
             mbtiTestBookDto.setTestUrl(mbtiTestBook.getTestUrl());
-            mbtiTestBookDto.setThumbnailUrl("/testBook/" + mbtiTestBook.getThumbnailUrl());
+            mbtiTestBookDto.setThumbnailUrl(mbtiTestBook.getThumbnailUrl());
             mbtiTestBookDtos.add(mbtiTestBookDto);
         }
         return mbtiTestBookDtos;

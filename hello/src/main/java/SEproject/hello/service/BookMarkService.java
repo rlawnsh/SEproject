@@ -36,10 +36,10 @@ public class BookMarkService {
     @Transactional
     public List<MbtiTestDto> getBookMark(Integer page) {
         List<MbtiTestDto> mbtiTestDtos = new ArrayList<>();
-        List<BookMark> byMemberId = bookMarkRepository.findByMemberId(SecurityUtil.getCurrentUserId(), PageRequest.of(page, 4));
+        List<BookMark> byMemberId = bookMarkRepository.findByMemberId(SecurityUtil.getCurrentUserId(), PageRequest.of(page, 10));
         for (BookMark bookMark : byMemberId) {
             MbtiTestDto mbtiTestDto = new MbtiTestDto(bookMark.getMbtiTest());
-            mbtiTestDto.setThumbnail("/mbtiTestImg/" + mbtiTestDto.getThumbnail());
+            mbtiTestDto.setThumbnail(mbtiTestDto.getThumbnail());
             mbtiTestDtos.add(mbtiTestDto);
         }
         return mbtiTestDtos;

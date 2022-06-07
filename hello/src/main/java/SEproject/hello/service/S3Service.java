@@ -57,7 +57,8 @@ public class S3Service {
         metadata.setContentType(file.getContentType());
         S3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), metadata)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
-        return fileName;
+        String url = S3Client.getUrl(bucket, fileName).toString();
+        return url;
     }
 
     public void deleteFile(String file) {
