@@ -47,3 +47,10 @@ jasypt:
 
 jwt:
   secret: ENC(NPE+tbont7cZ4HNyFt6PEcvHlz+r2Z02gOrb5t3hdY724Ow2BmnyLKenJhfc4shVsYXq0HK1KNMnHbcUQAhPOv0dUkIegqWCH2j5s/VnExh2LDfhGkEg4zLeQMC6iuCXTCRPmXyJSQ4v3VgsPOmfTw==)
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "prod"
